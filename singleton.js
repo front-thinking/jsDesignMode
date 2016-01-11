@@ -23,6 +23,6 @@ var createLoginLayer = function () {
 
 //在具体情况下应用
 document.getElementById('loginBtn').onclick = function (){
-  var loginLayer = getSingle(createLoginLayer);
+    var loginLayer = getSingle(createLoginLayer);
     loginLayer.style.display = 'block';
 };
