@@ -51,3 +51,47 @@ salesOffices.trigger('squareMeter110', 3000000);
 /**
  *DEMO2：更通用的实现
  */
+
+//发布者
+var event = {
+    clientList: [],
+    listen: function(key, fn){
+        if(!clientList[key]){
+            this.clientList[key] = [];
+        }
+        this.clientList[key].push(fn);
+    },
+    trigger: function (){
+        var key = Array.prototype.shift.call(arguments),
+            fns = this.clientList[key];
+        if(!fns || fns.length === 0){
+            return false;
+        }
+
+        for(var i= 0, l=fns.length; i < l; i++){
+            fn.apply(this, arguments);
+        }
+    }
+};
+
+//将普通对象转换为发布者的工具函数
+var installEvent = function (obj){
+    for (var i in event){
+        obj[i] = event[i];
+    }
+};
+
+//用通用的模式去实现DEMO1
+var salesOffices = {};
+installEvent(salesOffices);
+
+salesOffices.listen('squareMeter88', function (price){
+    console.log('价格=' + price);
+});
+
+salesOffices.listen('squareMeter110', function (price){
+    console.log('价格=' + price);
+});
+
+salesOffices.trigger('squareMeter88', 2000000);
+salesOffices.trigger('squareMeter110', 3000000);
