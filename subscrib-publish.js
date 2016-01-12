@@ -71,6 +71,23 @@ var event = {
         for(var i= 0, l=fns.length; i < l; i++){
             fn.apply(this, arguments);
         }
+    },
+    remove: function (key, fn){
+        var fns = this.clientList[key];
+
+        if(!fns){//表示key对应的消息没人被订阅，直接返回false
+            return false;
+        }
+        if(!fn){//如果没有传入具体的函数，则表示取消这类key所有的订阅者
+            fns && (fns.length = 0);
+        }else{
+            for(var l=fns.length; l >= 0; l--){
+                var _fn = fns[l];
+                if(_fn === fn){
+                    fns.splice(1, 1);
+                }
+            }
+        }
     }
 };
 
@@ -85,7 +102,7 @@ var installEvent = function (obj){
 var salesOffices = {};
 installEvent(salesOffices);
 
-salesOffices.listen('squareMeter88', function (price){
+salesOffices.listen('squareMeter88', function fn1(price){
     console.log('价格=' + price);
 });
 
@@ -95,3 +112,5 @@ salesOffices.listen('squareMeter110', function (price){
 
 salesOffices.trigger('squareMeter88', 2000000);
 salesOffices.trigger('squareMeter110', 3000000);
+
+salesOffices.remove('squareMeter88', fn1);//取消订阅
