@@ -22,3 +22,8 @@ for (var i=1; i<=50; i++){
     maleModel.underwear = 'underwear' + i;
     maleModel.takePoto();
 }
+
+for (var i=1; i<=50; i++){
+    femaleModel.underwear = 'underwear' + i;
+    femaleModel.takePoto();
+}
