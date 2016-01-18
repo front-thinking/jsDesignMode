@@ -5,7 +5,7 @@
  * 补充：遵循单一职责原则，通用的实现
  */
 
-//获取单利的工具函数，与具体对象的创建分离开来，单一职责原则
+//获取单例的工具函数，与具体对象的创建分离开来，单一职责原则
 var getSingle = function (fn){
     var result;
     return function () {
@@ -19,10 +19,13 @@ var createLoginLayer = function () {
     div.innerHTML = '我是登录框';
     div.style.display = 'none';
     document.body.appendChild(div);
+    return div;
 };
 
+
+var createSingleLoginLayer = getSingle(createLoginLayer);
 //在具体情况下应用
 document.getElementById('loginBtn').onclick = function (){
-    var loginLayer = getSingle(createLoginLayer);
+    var loginLayer = createSingleLoginLayer();
     loginLayer.style.display = 'block';
 };
